@@ -14,18 +14,20 @@
 # declare and init values.
 selfStr="$(basename $0)"
 projectId=""
+billingAccountId=""
 tfSAEmail=""
 
 # print usage instructions
 print_usage() {
-  echo -e "usage: $selfStr -P <project id> -S <terraform service account email> [-h]"
+  echo -e "usage: $selfStr -P <project id> -B <billing account id> -S <terraform service account email> [-h]"
 }
 
 # Bash's in-built getopts function to get values from flags
-while getopts P:S:h flag  # If a character is followed by a colon (e.g. P:), that option is expected to have an argument.
+while getopts P:B:S:h flag  # If a character is followed by a colon (e.g. P:), that option is expected to have an argument.
 do
     case "${flag}" in
       P) projectId="$OPTARG";;
+      B) billingAccountId="$OPTARG";;
       S) tfSAEmail="$OPTARG";;
       h) print_usage
          exit 0
@@ -62,10 +64,15 @@ printLine(){
 
 # check required parameters
 [[ -z "${projectId}" ]] && printErrMsgAndExit "project ID not provided"
+[[ -z "${billingAccountId}" ]] && printErrMsgAndExit "Billing account ID is not provided"
 [[ -z "${tfSAEmail}" ]] && printErrMsgAndExit "terraform service account email is not provided" #TODO Also check the email format is valid
 
 printInfoMsg "Checking if the ${projectId} exists. If not, creating one ..."
 gcloud projects create "${projectId}" --name="${projectId}" || printWarnMsg "projectId already exist. No changes made to ${projectId}"
+printLine
+
+printInfoMsg "Linking the Billing account id ${billingAccountId} with the project ${projectId}. This is required to use gcloud services ..."
+gcloud alpha billing projects link ${projectId} --billing-account ${billingAccountId} || printErrMsgAndExit "could not able to link project ${projectId} with billing account_id ${billingAccountId}"
 printLine
 
 printInfoMsg "Switching to project ${projectId} ..."
