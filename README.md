@@ -44,7 +44,7 @@ Google Cloud Storage, Compute and Kubernetes Engine are billable components.
   ```
   Example:
   ```
-    ./scripts/init_admin_project.sh -P a-demo-admin -B 01F1F5-E0C8BF-A86050 -S "/Users/agni/tf-admin.json"
+    ./scripts/init_admin_project.sh -P b-demo-admin -B 016959-9E26A7-5FE28B -S "/Users/agni/tf-admin.json"
   ```
   Note: this script must be run by a human with admin rigths for the project_id.
   <br><br>
@@ -59,11 +59,11 @@ Google Cloud Storage, Compute and Kubernetes Engine are billable components.
 <br><br>
 - Run `./scripts/init_app_project.sh` to create a GCP project to be used to host the GKE cluster.
   ```
-    ./scripts/init_app_project.sh -P <project-id> -S <terraform service account email> [-h]
+    ./scripts/init_app_project.sh -P <project-id> -B <your_billing_account_id> -S <terraform service account email> [-h]
   ```
   Example:
   ```
-    ./scripts/init_app_project.sh -P a-demo-dev -S terraform@a-demo-admin.iam.gserviceaccount.com
+    ./scripts/init_app_project.sh -P d-demo-dev -B 016959-9E26A7-5FE28B -S terraform@b-demo-admin.iam.gserviceaccount.com
   ```
   Note: this script must be run by a human with admin rigths for the project_id.
 
