@@ -119,7 +119,15 @@ printInfoMsg "Any actions that Terraform performs require the Service API be ena
 # while the Service Account of the API is created in project A 
 # the GKE API (strangly) must be enabled in project A too
 ```
+gcloud services enable container.googleapis.com
+```
+
+# Same is true for the following APIs too:
+```
 gcloud services enable compute.googleapis.com
+gcloud services enable iam.googleapis.com
+gcloud services enable cloudresourcemanager.googleapis.com
+
 ```
 printLine
 
